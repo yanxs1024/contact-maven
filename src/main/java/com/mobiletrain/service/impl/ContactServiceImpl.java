@@ -8,7 +8,19 @@ import com.mobiletrain.service.ContactService;
 import java.util.List;
 
 public class ContactServiceImpl implements ContactService {
-    private ContactDAO dao = new ContactDAOImpl();
+    private String username;
+    private ContactDAO dao;
+
+    
+
+
+    public void init() {
+        System.out.println("这是一个AddressServiceImpl初始化方法");
+    }
+
+    public void destroy() {
+        System.out.println("这是一个AddressServiceImpl销毁方法");
+    }
 
     @Override
     public List<Contact> queryAll() {
