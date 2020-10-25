@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd">
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <bean id="contactDAO" class="com.mobiletrain.dao.impl.ContactDAOImpl"/>
+    <bean id="dateSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/app?useUnicode=true&amp;characterEncoding=utf8"/>
+     </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+       <constructor-arg name="dataSource" ref="dateSource"/>
+   </bean>
 
-    <bean id="contactService"
-          class="com.mobiletrain.service.impl.ContactServiceImpl"
-          p:username="业务层"
-          p:dao-ref="contactDAO"/>
+    <bean id="contactDAO" class="com.mobiletrain.dao.impl.ContactDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    <bean id="contactService" class="com.mobiletrain.service.impl.ContactServiceImpl">
+        <property name="dao" ref="contactDAO"/>
+    </bean>
 
 
 </beans>
