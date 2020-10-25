@@ -21,7 +21,7 @@ public class ContactDAOImpl implements ContactDAO {
         try {
             String sql = "SELECT * FROM contact_info WHERE del=0";
 
-            result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Contact.class));
+            result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Contact>(Contact.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class ContactDAOImpl implements ContactDAO {
         try {
             String sql = "SELECT * FROM contact_info WHERE del=0 LIMIT ?,?";
 
-            result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Contact.class), pageOffset, pageSize);
+            result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Contact>(Contact.class), pageOffset, pageSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class ContactDAOImpl implements ContactDAO {
 
         // query是查多个，返回List，推荐使用
         // queryForObject是查1个，返回javabean。如果通过sql语句，一条都查不到的话，那么会抛异常
-        List<Contact> query = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Contact.class), contactId);
+        List<Contact> query = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Contact>(Contact.class), contactId);
 
         if (query.size() == 1) {
             return query.get(0);
